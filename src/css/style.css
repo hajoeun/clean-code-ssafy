@@ -1,0 +1,32 @@
+* {
+    font-size: 1em;
+}
+
+#filter {
+    display: flex;
+    padding: 8px;
+}
+
+#filter > * {
+    margin-right: 16px;
+}
+
+#is_prime.all:after {
+    content: '모든 상품';
+}
+
+#is_prime:not(.all):after {
+    content: '은행만';
+}
+
+#loan_list {
+    padding: 8px;
+    margin: 0;
+}
+
+.loan_item {
+    margin: 8px 0;
+    padding: 16px;
+    border: 1px solid black;
+    list-style: none;
+}
