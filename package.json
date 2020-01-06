@@ -2,7 +2,7 @@
   "name": "clean-code-ssafy",
   "version": "1.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/joeunha/clean-code-ssafy/issues"
   },
-  "homepage": "https://github.com/joeunha/clean-code-ssafy#readme"
+  "homepage": "https://github.com/joeunha/clean-code-ssafy#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }
