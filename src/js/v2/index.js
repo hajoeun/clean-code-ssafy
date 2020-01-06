@@ -1,4 +1,5 @@
 const $ = selector => document.querySelector(selector);
+const compose = (a, b) => c => b(a(c));
 
 const getHTML = data => {
     return data.reduce((html, loan) => (`
@@ -20,10 +21,12 @@ const getHTML = data => {
         </li>
     `), '');
 };
-
-const render = data => {
-    $('#loan_list').innerHTML = getHTML(data);
+const setHTML = html => {
+    $('#loan_list').innerHTML = html;
+    return html;
 };
+
+const render = compose(getHTML, setHTML);
 
 render(loans);
 
