@@ -61,3 +61,5 @@ const loans = [
         is_prime: true
     }
 ];
+
+module.exports = loans;

@@ -1,3 +1,4 @@
+const loans = require('../data');
 const $ = selector => document.querySelector(selector);
 const compose = (a, b) => c => b(a(c));
 
@@ -30,10 +31,7 @@ const render = compose(getHTML, setHTML);
 
 render(loans);
 
-let current = {
-    loans: loans,
-    sort_by: 'register'
-};
+let current = { loans: loans, sort_by: 'register' };
 
 const set_state = (new_state) => {
     current = { ...current, ...new_state };
@@ -46,12 +44,17 @@ const compare_functions = {
     limit: (a, b) => b.limit - a.limit
 };
 
-const add_event_listener = (selector, event_name, listener) => $(selector).addEventListener(event_name, listener);
-const add_click_event = (selector, listener) => add_event_listener(selector, 'click', listener);
-const add_change_event = (selector, listener) => add_event_listener(selector, 'change', listener);
+const add_event_listener = (selector, event_name, listener) =>
+  $(selector).addEventListener(event_name, listener);
+const add_click_event = (selector, listener) =>
+  add_event_listener(selector, 'click', listener);
+const add_change_event = (selector, listener) =>
+  add_event_listener(selector, 'change', listener);
 
-const has_class = (element, class_name) => element.classList.contains(class_name);
-const toggle_class = (element, class_name) => element.classList.toggle(class_name);
+const has_class = (element, class_name) =>
+  element.classList.contains(class_name);
+const toggle_class = (element, class_name) =>
+  element.classList.toggle(class_name);
 
 const track_event = (has_class_all) => {
     const filter_name = has_class_all ? 'prime_only' : 'all';

@@ -2,7 +2,9 @@
   "name": "clean-code-ssafy",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src --ext js --ignore-pattern test.js",
+    "lint:fix": "eslint src --ext js --ignore-pattern test.js --fix"
   },
   "repository": {
     "type": "git",
@@ -16,6 +18,7 @@
   },
   "homepage": "https://github.com/joeunha/clean-code-ssafy#readme",
   "devDependencies": {
+    "eslint": "^6.8.0",
     "jest": "^24.9.0"
   }
 }
