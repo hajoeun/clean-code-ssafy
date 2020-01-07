@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/joeunha/clean-code-ssafy/issues"
   },
-  "homepage": "https://github.com/joeunha/clean-code-ssafy#readme"
+  "homepage": "https://github.com/joeunha/clean-code-ssafy#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }

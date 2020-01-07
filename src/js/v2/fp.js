@@ -11,4 +11,4 @@ const add10 = x => sum(x, 10);
 const add20 = compose(add10, add10);
 const add40 = compose(add10, add10, add10, add10);
 
-console.log(add40(10));
+module.exports = { sum, add10 };
