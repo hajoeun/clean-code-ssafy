@@ -2,7 +2,9 @@
   "name": "clean-code-ssafy",
   "version": "1.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "lint": "eslint src --ext js --ignore-pattern test.js",
+    "lint:fix": "eslint src --ext js --ignore-pattern test.js --fix"
   },
   "repository": {
     "type": "git",
