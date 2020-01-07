@@ -1,8 +1,8 @@
-const loans = require('../data');
+const loans = require("../data");
 const $ = s => document.querySelector(s);
 
 const rend = d => (
-$('#loan_list').innerHTML =
+$("#loan_list").innerHTML =
 d.reduce((h, l) => (`
     ${h}
     <li class="loan_item">
@@ -20,13 +20,13 @@ d.reduce((h, l) => (`
             </div>
         </div>
     </li>
-`), ''));
+`), ""));
 
 rend(loans);
 
 const current = {
     loans: loans,
-    sort_by: 'register'
+    sort_by: "register"
 };
 
 const compare = {
@@ -37,20 +37,20 @@ const compare = {
 
 // s는 셀렉터, en은 이벤트명, f는 리스너
 const evt = (s, en, f) => $(s).addEventListener(en, f);
-const evt1 = (s, f) => evt(s, 'click', f);
-const evt2 = (s, f) => evt(s, 'change', f);
+const evt1 = (s, f) => evt(s, "click", f);
+const evt2 = (s, f) => evt(s, "change", f);
 // el은 엘리먼트, cn은 클래스명
 const has_c = (el, cn) => el.classList.contains(cn);
 const toggle_c = (el, cn) => el.classList.toggle(cn);
 
-evt1('#is_prime', ({ currentTarget }) => (
-    rend(current.loans = has_c(currentTarget, 'all') ?
+evt1("#is_prime", ({ currentTarget }) => (
+    rend(current.loans = has_c(currentTarget, "all") ?
         current.loans.filter(loan => loan.is_prime) :
         loans.sort(compare[current.sort_by]))
-    && toggle_c(currentTarget, 'all')
+    && toggle_c(currentTarget, "all")
 ));
 
-evt2('#sort', ({ currentTarget }) => (
+evt2("#sort", ({ currentTarget }) => (
     rend(current.loans = current.loans.sort(
         compare[current.sort_by = currentTarget.value]))
 ));

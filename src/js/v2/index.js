@@ -1,4 +1,4 @@
-const loans = require('../data');
+const loans = require("../data");
 const $ = s => document.querySelector(s);
 
 const get_loan_item_HTML = (data) => {
@@ -19,11 +19,11 @@ const get_loan_item_HTML = (data) => {
             </div>
         </div>
     </li>
-    `), '');
+    `), "");
 };
 
 const set_loan_list_HTML = (html) => {
-    $('#loan_list').innerHTML = html;
+    $("#loan_list").innerHTML = html;
 };
 
 const compose = (...fns) => {
@@ -31,7 +31,7 @@ const compose = (...fns) => {
         return fns.reduce((acc, fn) => {
             return fn(acc);
         }, arg);
-    }
+    };
 };
 
 const render = compose(get_loan_item_HTML, set_loan_list_HTML);
@@ -40,7 +40,7 @@ render(loans);
 
 let current = {
     loans: loans,
-    sort_by: 'register'
+    sort_by: "register"
 };
 
 const set_state = (new_state) => {
@@ -58,10 +58,10 @@ const add_event_listener = (selector, element, listener) =>
   $(selector).addEventListener(element, listener);
 
 const on_click = (selector, listener) =>
-  add_event_listener(selector, 'click', listener);
+  add_event_listener(selector, "click", listener);
 
 const on_change = (selector, listener) =>
-  add_event_listener(selector, 'change', listener);
+  add_event_listener(selector, "change", listener);
 
 const has_class = (element, class_name) =>
   element.classList.contains(class_name);
@@ -69,8 +69,8 @@ const has_class = (element, class_name) =>
 const toggle_class = (element, class_name) =>
   element.classList.toggle(class_name);
 
-on_click('#is_prime', ({ currentTarget }) => {
-    const has_class_all = has_class(currentTarget, 'all');
+on_click("#is_prime", ({ currentTarget }) => {
+    const has_class_all = has_class(currentTarget, "all");
 
     if (has_class_all) {
         const filtered_loans = current.loans.filter(loan => loan.is_prime);
@@ -82,15 +82,15 @@ on_click('#is_prime', ({ currentTarget }) => {
     }
 
     render(current.loans);
-    toggle_class(currentTarget, 'all');
+    toggle_class(currentTarget, "all");
 });
 
-on_change('#sort', ({ currentTarget }) => {
+on_change("#sort", ({ currentTarget }) => {
     const sort_key = currentTarget.value;
     const compare_function = compare_function_hash[sort_key];
     const sorted_loans = current.loans.sort(compare_function);
 
     const getProperty = key => obj => obj[key];
-    const fn = compose(set_state, getProperty('loans'), render);
+    const fn = compose(set_state, getProperty("loans"), render);
     fn({ loans: sorted_loans, sort_by: sort_key });
 });
