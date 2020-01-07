@@ -1,8 +1,7 @@
 const $ = s => document.querySelector(s);
 
-const render = d => (
-$('#loan_list').innerHTML =
-d.reduce((h, l) => (`
+const get_loan_item_HTML = (data) => {
+    return data.reduce((h, l) => (`
     ${h}
     <li class="loan_item">
         <div class="name_and_organization">
@@ -19,7 +18,21 @@ d.reduce((h, l) => (`
             </div>
         </div>
     </li>
-`), ''));
+    `), '');
+};
+
+const set_loan_list_HTML = (html) => {
+    $('#loan_list').innerHTML = html;
+};
+
+const compose = (f1, f2) => {
+    return data => {
+        const result = f1(data);
+        return f2(result);
+    };
+};
+
+const render = compose(get_loan_item_HTML, set_loan_list_HTML);
 
 render(loans);
 
@@ -75,7 +88,7 @@ on_click('#is_prime', ({ currentTarget }) => {
         set_state({ loans: sorted_loans });
     }
 
-    track_event(has_class_all);
+    // track_event(has_class_all);
     render(current.loans);
     toggle_class(currentTarget, 'all');
 });
