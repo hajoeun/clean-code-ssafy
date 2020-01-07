@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/joeunha/clean-code-ssafy#readme",
   "devDependencies": {
+    "eslint": "^6.8.0",
     "jest": "^24.9.0"
   }
 }

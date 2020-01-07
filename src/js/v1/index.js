@@ -1,3 +1,4 @@
+const loans = require('../data');
 const $ = s => document.querySelector(s);
 
 const getHTML = (data) => {
@@ -18,7 +19,7 @@ const getHTML = (data) => {
             </div>
         </div>
     </li>
-`), '')
+`), '');
 };
 
 const setHTML = (html) => {
