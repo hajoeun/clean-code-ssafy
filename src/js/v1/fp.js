@@ -4,8 +4,14 @@ const compose = (f1, f2) => {
   };
 };
 
-const sum = (a, b) => a + b;
+const sum = (a, b) => {
+  console.log("----hello");
+  return a + b;
+};
 const add10 = (x) => sum(x, 10);
 
 const add20 = compose(add10, add10);
-console.log(add20(10));
+
+module.exports = {
+  sum, add10, add20
+};
