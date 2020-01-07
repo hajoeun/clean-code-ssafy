@@ -25,11 +25,12 @@ const set_loan_list_HTML = (html) => {
     $('#loan_list').innerHTML = html;
 };
 
-const compose = (f1, f2) => {
-    return data => {
-        const result = f1(data);
-        return f2(result);
-    };
+const compose = (...fns) => {
+    return (arg) => {
+        return fns.reduce((acc, fn) => {
+            return fn(acc);
+        }, arg);
+    }
 };
 
 const render = compose(get_loan_item_HTML, set_loan_list_HTML);
@@ -98,6 +99,7 @@ on_change('#sort', ({ currentTarget }) => {
     const compare_function = compare_function_hash[sort_key];
     const sorted_loans = current.loans.sort(compare_function);
 
-    set_state({ loans: sorted_loans, sort_by: sort_key });
-    render(current.loans);
+    const getProperty = key => obj => obj[key];
+    const fn = compose(set_state, getProperty('loans'), render);
+    fn({ loans: sorted_loans, sort_by: sort_key });
 });

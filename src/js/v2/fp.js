@@ -1,12 +1,14 @@
-const compose = (f1, f2) => {
-  return data => {
-    const result = f1(data);
-    return f2(result);
-  };
+const compose = (...fns) => {
+  return (arg) => {
+    return fns.reduce((acc, fn) => {
+      return fn(acc);
+    }, arg);
+  }
 };
 
 const sum = (a, b) => a + b;
 const add10 = x => sum(x, 10);
 const add20 = compose(add10, add10);
+const add40 = compose(add10, add10, add10, add10);
 
-console.log(add20(10));
+console.log(add40(10));
