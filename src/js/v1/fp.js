@@ -5,7 +5,6 @@ const compose = (f1, f2) => {
 };
 
 const sum = (a, b) => {
-  console.log("----hello");
   return a + b;
 };
 const add10 = (x) => sum(x, 10);
