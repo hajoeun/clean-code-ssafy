@@ -1,7 +1,8 @@
+const loans = require("../data");
 const $ = s => document.querySelector(s);
 
 const get_HTML = (data) => {
-    return data.reduce((h, l) => (`
+  return data.reduce((h, l) => (`
     ${h}
     <li class="loan_item">
         <div class="name_and_organization">
@@ -18,47 +19,47 @@ const get_HTML = (data) => {
             </div>
         </div>
     </li>
-`), '')
+`), "");
 };
 
 const set_HTML = (html) => {
-    $('#loan_list').innerHTML = html;
+  $("#loan_list").innerHTML = html;
 };
 
 const compose = (f1, f2) => {
-    return (data) => {
-        return f2(f1(data));
-    };
+  return (data) => {
+    return f2(f1(data));
+  };
 };
 
 const render = compose(get_HTML, set_HTML);
 
-render(loans)
+render(loans);
 
 let current = {
-    loans: loans,
-    sort_by: 'register'
+  loans: loans,
+  sort_by: "register"
 };
 
 const set_state = (new_state) => {
-    current = { ...current, ...new_state };
-    return current;
+  current = { ...current, ...new_state };
+  return current;
 };
 
 const compare_functions = {
-    register: (a, b) => a.id - b.id,
-    interest: (a, b) => a.interest.min - b.interest.min,
-    limit: (a, b) => b.limit - a.limit
+  register: (a, b) => a.id - b.id,
+  interest: (a, b) => a.interest.min - b.interest.min,
+  limit: (a, b) => b.limit - a.limit
 };
 
 const add_event_listener = (selector, event_name, listener) =>
   $(selector).addEventListener(event_name, listener);
 
 const on_click = (selector, listener) =>
-  add_event_listener(selector, 'click', listener);
+  add_event_listener(selector, "click", listener);
 
 const on_change = (selector, listener) =>
-  add_event_listener(selector, 'change', listener);
+  add_event_listener(selector, "change", listener);
 
 const has_class = (element, class_name) =>
   element.classList.contains(class_name);
@@ -68,36 +69,36 @@ const toggle_class = (element, class_name) =>
 
 
 const track_event = (has_class_all) => {
-    console.log({
-        screen_name: 'loans_page',
-        number_of_loans: current.loans.length + 1,
-        filter_name: has_class_all ? 'only_prime' : 'all',
-        event_name: 'click_filter'
-    });
+  console.log({
+    screen_name: "loans_page",
+    number_of_loans: current.loans.length + 1,
+    filter_name: has_class_all ? "only_prime" : "all",
+    event_name: "click_filter"
+  });
 };
 
-on_click('#is_prime', ({ currentTarget }) => {
-    const has_class_all = has_class(currentTarget, 'all');
+on_click("#is_prime", ({ currentTarget }) => {
+  const has_class_all = has_class(currentTarget, "all");
 
-    if (has_class_all) {
-        const filtered_loans = current.loans.filter(loan => loan.is_prime);
-        set_state({ loans: filtered_loans });
-    } else {
-        const compare_function = compare_functions[current.sort_by];
-        const sorted_loans = loans.sort(compare_function);
-        set_state({ loans: sorted_loans });
-    }
+  if (has_class_all) {
+    const filtered_loans = current.loans.filter(loan => loan.is_prime);
+    set_state({ loans: filtered_loans });
+  } else {
+    const compare_function = compare_functions[current.sort_by];
+    const sorted_loans = loans.sort(compare_function);
+    set_state({ loans: sorted_loans });
+  }
 
-    track_event(has_class_all);
-    render(current.loans);
-    toggle_class(currentTarget, 'all');
+  track_event(has_class_all);
+  render(current.loans);
+  toggle_class(currentTarget, "all");
 });
 
-on_change('#sort', ({ currentTarget }) => {
-    const sort_key = currentTarget.value;
-    const compare_function = compare_functions[sort_key];
-    const sorted_loans = current.loans.sort(compare_function);
+on_change("#sort", ({ currentTarget }) => {
+  const sort_key = currentTarget.value;
+  const compare_function = compare_functions[sort_key];
+  const sorted_loans = current.loans.sort(compare_function);
 
-    set_state({ loans: sorted_loans, sort_by: sort_key });
-    render(current.loans);
+  set_state({ loans: sorted_loans, sort_by: sort_key });
+  render(current.loans);
 });
