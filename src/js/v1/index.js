@@ -70,6 +70,8 @@ const has_class = (element, class_name) =>
 const toggle_class = (element, class_name) =>
   element.classList.toggle(class_name);
 
+const render_by_get_state = compose(get_state, render);
+
 on_click('#is_prime', ({ currentTarget }) => {
     const has_class_all = has_class(currentTarget, 'all');
 
@@ -86,7 +88,7 @@ on_click('#is_prime', ({ currentTarget }) => {
         set_state({ loans: sorted_loans });
     }
 
-    render(get_state('loans'));
+    render_by_get_state('loans');
     toggle_class(currentTarget, 'all')
 });
 
@@ -96,5 +98,5 @@ on_change('#sort', ({ currentTarget }) => {
     const sorted_loans = current.loans.sort(compare_function);
 
     set_state({ loans: sorted_loans, sort_by: sort_key });
-    render(get_state('loans'));
+    render_by_get_state('loans');
 });
