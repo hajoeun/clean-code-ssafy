@@ -1,3 +1,4 @@
+const loans = require('../data');
 const $ = s => document.querySelector(s);
 
 const get_HTML = (data) => {
