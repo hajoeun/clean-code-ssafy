@@ -1,8 +1,7 @@
 const $ = s => document.querySelector(s);
 
-const render = d => (
-$('#loan_list').innerHTML =
-d.reduce((h, l) => (`
+const get_HTML = (data) => {
+    return data.reduce((h, l) => (`
     ${h}
     <li class="loan_item">
         <div class="name_and_organization">
@@ -19,7 +18,20 @@ d.reduce((h, l) => (`
             </div>
         </div>
     </li>
-`), ''));
+`), '')
+};
+
+const set_HTML = (html) => {
+    $('#loan_list').innerHTML = html;
+};
+
+const compose = (f1, f2) => {
+    return (data) => {
+        return f2(f1(data));
+    };
+};
+
+const render = compose(get_HTML, set_HTML);
 
 render(loans);
 
