@@ -55,6 +55,15 @@ const toggle_class = (element, class_name) =>
   element.classList.toggle(class_name);
 
 
+const track_event = (has_class_all) => {
+    console.log({
+        screen_name: 'loans_page',
+        number_of_loans: current.loans.length + 1,
+        filter_name: has_class_all ? 'only_prime' : 'all',
+        event_name: 'click_filter'
+    });
+};
+
 on_click('#is_prime', ({ currentTarget }) => {
     const has_class_all = has_class(currentTarget, 'all');
 
@@ -67,6 +76,7 @@ on_click('#is_prime', ({ currentTarget }) => {
         set_state({ loans: sorted_loans });
     }
 
+    track_event(has_class_all);
     render(current.loans);
     toggle_class(currentTarget, 'all');
 });
