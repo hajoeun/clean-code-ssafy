@@ -1,6 +1,6 @@
 const $ = s => document.querySelector(s);
 
-const rend = d => (
+const render = d => (
 $('#loan_list').innerHTML =
 d.reduce((h, l) => (`
     ${h}
@@ -21,7 +21,7 @@ d.reduce((h, l) => (`
     </li>
 `), ''));
 
-rend(loans);
+render(loans);
 
 const current = {
     loans: loans,
@@ -34,22 +34,38 @@ const compare = {
     limit: (a, b) => b.limit - a.limit
 };
 
-// s는 셀렉터, en은 이벤트명, f는 리스너
-const evt = (s, en, f) => $(s).addEventListener(en, f);
-const evt1 = (s, f) => evt(s, 'click', f);
-const evt2 = (s, f) => evt(s, 'change', f);
-// el은 엘리먼트, cn은 클래스명
-const has_c = (el, cn) => el.classList.contains(cn);
-const toggle_c = (el, cn) => el.classList.toggle(cn);
+const add_event_listener = (selector, event_name, listener) =>
+  $(selector).addEventListener(event_name, listener);
 
-evt1('#is_prime', ({ currentTarget }) => (
-    rend(current.loans = has_c(currentTarget, 'all') ?
-        current.loans.filter(loan => loan.is_prime) :
-        loans.sort(compare[current.sort_by]))
-    && toggle_c(currentTarget, 'all')
-));
+const on_click = (selector, listener) =>
+  add_event_listener(selector, 'click', listener);
 
-evt2('#sort', ({ currentTarget }) => (
-    rend(current.loans = current.loans.sort(
-        compare[current.sort_by = currentTarget.value]))
-));
+const on_change = (selector, listener) =>
+  add_event_listener(selector, 'change', listener);
+
+const has_class = (element, class_name) =>
+  element.classList.contains(class_name);
+
+const toggle_class = (element, class_name) =>
+  element.classList.toggle(class_name);
+
+
+on_click('#is_prime', ({ currentTarget }) => {
+    const has_class_all = has_class(currentTarget, 'all');
+
+    if (has_class_all) {
+        current.loans = current.loans.filter(loan => loan.is_prime);
+    } else {
+        current.loans = loans.sort(compare[current.sort_by]);
+    }
+
+    render(current.loans);
+    toggle_class(currentTarget, 'all');
+});
+
+on_change('#sort', ({ currentTarget }) => {
+    current.sort_by = currentTarget.value;
+    current.loans = current.loans.sort(compare[current.sort_by]);
+
+    render(current.loans);
+});
