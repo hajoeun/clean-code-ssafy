@@ -27,11 +27,13 @@ const set_HTML = (html) => {
 
 const compose = (f1, f2) => {
     return (data) => {
-        f2(f1(data));
+        return f2(f1(data));
     };
 };
 
 const render = compose(get_HTML, set_HTML);
+
+render(loans)
 
 let current = {
     loans: loans,
