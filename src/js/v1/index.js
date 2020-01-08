@@ -1,6 +1,6 @@
 const $ = s => document.querySelector(s);
 
-const rend = d => (
+const render = d => (
 $('#loan_list').innerHTML =
 d.reduce((h, l) => (`
     ${h}
@@ -21,35 +21,68 @@ d.reduce((h, l) => (`
     </li>
 `), ''));
 
-rend(loans);
+render(loans);
 
-const current = {
+let current = {
     loans: loans,
     sort_by: 'register'
 };
 
-const compare = {
+const set_state = (new_state) => {
+    current = { ...current, ...new_state };
+    return current;
+};
+
+const get_state = (key) => {
+    return current[key];
+};
+
+const compare_functions = {
     register: (a, b) => a.id - b.id,
     interest: (a, b) => a.interest.min - b.interest.min,
     limit: (a, b) => b.limit - a.limit
 };
 
-// s는 셀렉터, en은 이벤트명, f는 리스너
-const evt = (s, en, f) => $(s).addEventListener(en, f);
-const evt1 = (s, f) => evt(s, 'click', f);
-const evt2 = (s, f) => evt(s, 'change', f);
-// el은 엘리먼트, cn은 클래스명
-const has_c = (el, cn) => el.classList.contains(cn);
-const toggle_c = (el, cn) => el.classList.toggle(cn);
+const add_event_listener = (selector, element, listener) =>
+  $(selector).addEventListener(element, listener);
 
-evt1('#is_prime', ({ currentTarget }) => (
-    rend(current.loans = has_c(currentTarget, 'all') ?
-        current.loans.filter(loan => loan.is_prime) :
-        loans.sort(compare[current.sort_by]))
-    && toggle_c(currentTarget, 'all')
-));
+const on_click = (selector, listener) =>
+  add_event_listener(selector, 'click', listener);
 
-evt2('#sort', ({ currentTarget }) => (
-    rend(current.loans = current.loans.sort(
-        compare[current.sort_by = currentTarget.value]))
-));
+const on_change = (selector, listener) =>
+  add_event_listener(selector, 'change', listener);
+
+const has_class = (element, class_name) =>
+  element.classList.contains(class_name);
+
+const toggle_class = (element, class_name) =>
+  element.classList.toggle(class_name);
+
+on_click('#is_prime', ({ currentTarget }) => {
+    const has_class_all = has_class(currentTarget, 'all');
+
+    if (has_class_all) {
+        const is_prime = loan => loan.is_prime;
+        const filtered_loans = current.loans.filter(is_prime);
+        set_state({ loans: filtered_loans });
+    } else {
+
+        const sort_key = get_state('sort_by');
+        const compare_function = compare_functions[sort_key];
+        const sorted_loans = loans.sort(compare_function);
+
+        set_state({ loans: sorted_loans });
+    }
+
+    render(get_state('loans'));
+    toggle_class(currentTarget, 'all')
+});
+
+on_change('#sort', ({ currentTarget }) => {
+    const sort_key = currentTarget.value;
+    const compare_function = compare_functions[sort_key];
+    const sorted_loans = current.loans.sort(compare_function);
+
+    set_state({ loans: sorted_loans, sort_by: sort_key });
+    render(get_state('loans'));
+});
