@@ -33,7 +33,7 @@ const set_state = (new_state) => {
     return current;
 };
 
-const compare = {
+const compare_functions = {
     register: (a, b) => a.id - b.id,
     interest: (a, b) => a.interest.min - b.interest.min,
     limit: (a, b) => b.limit - a.limit
@@ -62,7 +62,8 @@ on_click('#is_prime', ({ currentTarget }) => {
         const filtered_loans = current.loans.filter(loan => loan.is_prime);
         set_state({ loans: filtered_loans });
     } else {
-        const sorted_loans = loans.sort(compare[current.sort_by]);
+        const compare_function = compare_functions[current.sort_by];
+        const sorted_loans = loans.sort(compare_function);
         set_state({ loans: sorted_loans });
     }
 
@@ -72,7 +73,8 @@ on_click('#is_prime', ({ currentTarget }) => {
 
 on_change('#sort', ({ currentTarget }) => {
     const sort_key = currentTarget.value;
-    const sorted_loans = current.loans.sort(compare[sort_key]);
+    const compare_function = compare_functions[sort_key];
+    const sorted_loans = current.loans.sort(compare_function);
 
     set_state({ loans: sorted_loans, sort_by: sort_key });
     render(current.loans);
