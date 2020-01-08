@@ -23,9 +23,14 @@ d.reduce((h, l) => (`
 
 render(loans);
 
-const current = {
+let current = {
     loans: loans,
     sort_by: 'register'
+};
+
+const set_state = (new_state) => {
+    current = { ...current, ...new_state };
+    return current;
 };
 
 const compare = {
@@ -54,9 +59,11 @@ on_click('#is_prime', ({ currentTarget }) => {
     const has_class_all = has_class(currentTarget, 'all');
 
     if (has_class_all) {
-        current.loans = current.loans.filter(loan => loan.is_prime);
+        const filtered_loans = current.loans.filter(loan => loan.is_prime);
+        set_state({ loans: filtered_loans });
     } else {
-        current.loans = loans.sort(compare[current.sort_by]);
+        const sorted_loans = loans.sort(compare[current.sort_by]);
+        set_state({ loans: sorted_loans });
     }
 
     render(current.loans);
@@ -64,8 +71,9 @@ on_click('#is_prime', ({ currentTarget }) => {
 });
 
 on_change('#sort', ({ currentTarget }) => {
-    current.sort_by = currentTarget.value;
-    current.loans = current.loans.sort(compare[current.sort_by]);
+    const sort_key = currentTarget.value;
+    const sorted_loans = current.loans.sort(compare[sort_key]);
 
+    set_state({ loans: sorted_loans, sort_by: sort_key });
     render(current.loans);
 });
