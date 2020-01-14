@@ -61,3 +61,5 @@ const loans = [
         is_prime: true
     }
 ];
+
+const origin = { loans, sort_by: 'register' };

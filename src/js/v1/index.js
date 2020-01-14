@@ -1,3 +1,4 @@
+const current = { ...origin };
 const $ = s => document.querySelector(s);
 
 const rend = d => (
@@ -21,12 +22,7 @@ d.reduce((h, l) => (`
     </li>
 `), ''));
 
-rend(loans);
-
-const current = {
-    loans: loans,
-    sort_by: 'register'
-};
+rend(current.loans);
 
 const compare = {
     register: (a, b) => a.id - b.id,
@@ -45,7 +41,7 @@ const toggle_c = (el, cn) => el.classList.toggle(cn);
 evt1('#is_prime', ({ currentTarget }) => (
     rend(current.loans = has_c(currentTarget, 'all') ?
         current.loans.filter(loan => loan.is_prime) :
-        loans.sort(compare[current.sort_by]))
+        origin.loans.sort(compare[current.sort_by]))
     && toggle_c(currentTarget, 'all')
 ));
 
